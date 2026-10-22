@@ -1,0 +1,48 @@
+id: homeassistant-satellite
+name: "Home Assistant Satellite"
+description: "Turns the phone into a wall-mounted sensor and camera satellite for Home Assistant."
+version: "0.1.0"
+maintainer: "omnipha"
+
+requirements:
+  min_ram_mb: 1024
+  min_storage_mb: 2048
+  display: optional
+  touch: optional
+  camera: optional
+  battery: optional
+  wifi: required
+  bluetooth: optional
+
+packages:
+  - mosquitto-clients
+  - v4l-utils
+
+config:
+  MQTT_BROKER:
+    type: string
+    required: true
+    description: "IP address or hostname of the Home Assistant / MQTT broker"
+  MQTT_PORT:
+    type: integer
+    default: 1883
+    description: "Port of the MQTT broker"
+  MQTT_TOPIC_PREFIX:
+    type: string
+    default: "omnipha/satellite"
+    description: "Base topic for publishing sensor telemetry"
+  DASHBOARD_URL:
+    type: string
+    required: false
+    description: "URL to display in the full-screen kiosk browser (e.g. Lovelace wall panel)"
+  CAMERA_STREAM:
+    type: boolean
+    default: true
+    description: "Expose device camera as local RTSP or WebRTC stream"
+
+services:
+  compose_file: "docker-compose.yaml"
+  host_services: []
+
+hooks:
+  first_boot: "setup.sh"

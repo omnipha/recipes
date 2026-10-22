@@ -1,0 +1,42 @@
+id: agent-host
+name: "AI Agent Host"
+description: "A headless runtime environment for autonomous coding and assistant agents (OpenClaw, Claude Code, Codex, Hermes)."
+version: "0.1.0"
+maintainer: "omnipha"
+
+requirements:
+  min_ram_mb: 2048
+  min_storage_mb: 8192
+  display: none
+  touch: none
+  camera: optional
+  battery: optional
+  wifi: required
+  bluetooth: optional
+
+packages:
+  - nodejs
+  - npm
+  - python3
+  - py3-pip
+  - git
+  - tmux
+  - curl
+  - jq
+
+config:
+  AGENT_FRAMEWORK:
+    type: string
+    default: "openclaw"
+    description: "Primary agent framework to initialize (openclaw | claudecode | all)"
+  SWAP_SIZE_MB:
+    type: integer
+    default: 2048
+    description: "ZRAM or file swap allocation in MB to handle compiler/agent peak memory"
+
+services:
+  host_services:
+    - sshd
+
+hooks:
+  first_boot: "setup.sh"

@@ -1,0 +1,42 @@
+id: security-lab
+name: "Security Lab & Pentest Toolkit"
+description: "A pocket toolkit for Wi-Fi auditing, Bluetooth/NFC inspection, and USB gadget experiments."
+version: "0.1.0"
+maintainer: "omnipha"
+
+requirements:
+  min_ram_mb: 2048
+  min_storage_mb: 4096
+  display: required
+  touch: optional
+  camera: optional
+  battery: optional
+  wifi: required
+  bluetooth: optional
+
+packages:
+  - tcpdump
+  - nmap
+  - tshark
+  - aircrack-ng
+  - bluez
+  - wireless-tools
+  - curl
+  - tmux
+
+config:
+  UI_MODE:
+    type: string
+    default: "console"
+    description: "Display mode on the phone screen (console | web)"
+  WIFI_INTERFACE:
+    type: string
+    default: "wlan0"
+    description: "Default wireless network interface"
+
+services:
+  host_services:
+    - sshd
+
+hooks:
+  first_boot: "setup.sh"

@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OmniphaRecipe",
+  "type": "object",
+  "required": ["id", "name", "description", "version", "maintainer", "requirements"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "maintainer": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "object",
+      "properties": {
+        "min_ram_mb": { "type": "integer" },
+        "min_storage_mb": { "type": "integer" },
+        "display": { "type": "string", "enum": ["required", "optional", "none"] },
+        "touch": { "type": "string", "enum": ["required", "optional", "none"] },
+        "camera": { "type": "string", "enum": ["required", "optional", "none"] },
+        "battery": { "type": "string", "enum": ["required", "optional", "none"] },
+        "wifi": { "type": "string", "enum": ["required", "optional", "none"] },
+        "bluetooth": { "type": "string", "enum": ["required", "optional", "none"] }
+      }
+    },
+    "packages": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type", "description"],
+        "properties": {
+          "type": { "type": "string", "enum": ["string", "integer", "boolean"] },
+          "required": { "type": "boolean" },
+          "default": {},
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "services": {
+      "type": "object",
+      "properties": {
+        "compose_file": { "type": "string" },
+        "host_services": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "properties": {
+        "first_boot": { "type": "string" }
+      }
+    }
+  }
+}

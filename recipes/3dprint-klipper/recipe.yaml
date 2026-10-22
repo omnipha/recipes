@@ -1,0 +1,42 @@
+id: 3dprint-klipper
+name: "3D Printer Host (Klipper)"
+description: "Runs Klipper, Moonraker, Mainsail web interface, and camera streaming to control 3D printers over USB."
+version: "0.1.0"
+maintainer: "omnipha"
+
+requirements:
+  min_ram_mb: 1024
+  min_storage_mb: 4096
+  display: optional
+  touch: optional
+  camera: optional
+  battery: optional
+  wifi: required
+  bluetooth: none
+
+packages:
+  - python3
+  - py3-pip
+  - v4l-utils
+  - usbutils
+
+config:
+  PRINTER_PORT:
+    type: string
+    default: "/dev/ttyACM0"
+    description: "Serial device path of the 3D printer mainboard connected via USB OTG"
+  WEB_PORT:
+    type: integer
+    default: 80
+    description: "HTTP port for the Mainsail web interface"
+  STREAM_FRAMERATE:
+    type: integer
+    default: 15
+    description: "Target framerate for the built-in webcam stream"
+
+services:
+  compose_file: "docker-compose.yaml"
+  host_services: []
+
+hooks:
+  first_boot: "setup.sh"
